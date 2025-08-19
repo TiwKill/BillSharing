@@ -114,9 +114,20 @@ export function useExpenseData() {
             }
         }
     
-        return settlements
+        // รวมยอดถ้า from, to ซ้ำกัน
+        const aggregated: Record<string, Settlement> = {}
+        for (const s of settlements) {
+            const key = `${s.from.id}-${s.to.id}`
+            if (!aggregated[key]) {
+                aggregated[key] = { ...s }
+            } else {
+                aggregated[key].amount += s.amount
+            }
+        }
+    
+        return Object.values(aggregated)
     }
-
+    
     return {
         people,
         expenses,
