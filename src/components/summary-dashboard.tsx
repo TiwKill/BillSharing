@@ -126,7 +126,7 @@ export function SummaryDashboard({ people, expenses, calculateSummary, calculate
                             สรุปยอดแต่ละคน
                         </DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-4">
+                    <div className="space-y-4 max-h-[60vh] overflow-y-auto">
                         {summary.map((personSummary) => (
                             <PersonSummaryCard key={personSummary.id} summary={personSummary} />
                         ))}
