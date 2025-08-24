@@ -80,9 +80,9 @@ export function useExpenseData() {
                 id: person.id,
                 name: person.name,
                 color: person.color,
-                totalPaid,
-                totalOwed,
-                balance,
+                totalPaid: Math.round(totalPaid),
+                totalOwed: Math.round(totalOwed),
+                balance: Math.round(balance),
             }
         })
     }
@@ -108,7 +108,7 @@ export function useExpenseData() {
                     settlements.push({
                         from: sharer,
                         to: payer,
-                        amount: amountPerPerson
+                        amount: Math.round(amountPerPerson)
                     })
                 }
             }
@@ -125,7 +125,11 @@ export function useExpenseData() {
             }
         }
     
-        return Object.values(aggregated)
+        // ปัดเศษยอดรวมอีกครั้ง
+        return Object.values(aggregated).map(s => ({
+            ...s,
+            amount: Math.round(s.amount)
+        }))
     }
     
     return {

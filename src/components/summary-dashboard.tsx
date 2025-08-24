@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown, DollarSign, ArrowRight, Calculator, Users, Receipt } from "lucide-react"
 import type { Person, Expense, PersonSummary, Settlement } from "@/types/index"
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import Image from "next/image"
 
 interface SummaryDashboardProps {
     people: Person[]
@@ -98,21 +100,39 @@ export function SummaryDashboard({ people, expenses, calculateSummary, calculate
             </div>
 
             {/* Person Summary */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Calculator className="h-5 w-5" />
-                        สรุปยอดแต่ละคน
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Card className="relative overflow-hidden">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 cursor-pointer relative z-10">
+                                <Calculator className="h-5 w-5" />
+                                สรุปยอดแต่ละคน
+                            </CardTitle>
+                            <Image
+                                src="/hand-click.svg"
+                                alt="Expand"
+                                width={124}
+                                height={124}
+                                className="absolute right-0 top-12 -translate-y-1/2 opacity-20 pointer-events-none select-none -rotate-24"
+                                style={{ zIndex: 0 }}
+                            />
+                        </CardHeader>
+                    </Card>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <Calculator className="h-5 w-5" />
+                            สรุปยอดแต่ละคน
+                        </DialogTitle>
+                    </DialogHeader>
                     <div className="space-y-4">
                         {summary.map((personSummary) => (
                             <PersonSummaryCard key={personSummary.id} summary={personSummary} />
                         ))}
                     </div>
-                </CardContent>
-            </Card>
+                </DialogContent>
+            </Dialog>
 
             {Object.keys(settlementsByRecipient).length > 0 && (
                 <div className="space-y-4">
